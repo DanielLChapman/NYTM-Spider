@@ -9,9 +9,12 @@ public class mainspider {
 	
 	public static void main(String[] args) throws IOException {
 		
-		
+		//escaped quote for parsing
 		char test = '"';
+		//holding the list of urls
 		ArrayList<String> urlList = new ArrayList();
+		//For each page of the nytm, iterate through each line that contains cta inline hiring
+		//parse that line to just the url, then save it in the arraylist
 		for (int i = 1; i <= 28; i++ ) {
 		String urlStr = "https://nytm.org/made?list=true&page=" + i;
 		URLConnection connection = new URL(urlStr).openConnection();
@@ -25,10 +28,12 @@ public class mainspider {
 			if (line.contains("cta inline hiring")) {
 				StringBuilder sbTemp = new StringBuilder();
 				sbTemp.append(line);
+				//chars from < to the first "
 				sbTemp.delete(0, 41);
 				StringBuilder sbTemp2 = new StringBuilder();
 				char temp;
 				int counter = 0;
+				//until we get to the char ", make a new string adding each char
 				while ((temp = sbTemp.charAt(counter)) != test ){
 					sbTemp2.append(temp);
 					counter++;
@@ -37,6 +42,7 @@ public class mainspider {
 			}
 			}
 		}
+		//print each url
 		for (int x = 0; x < urlList.size(); x++) {
 			System.out.println(urlList.get(x));
 		}
